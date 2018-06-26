@@ -8,20 +8,26 @@ class Transaction {
 		this.tags = tags || [];
 	}
 
-	create() {
-		transactions.push(this);
+	create(callback) {
+		$.post('/transaction', {
+			newPostData: {
+				title: this.title,
+				date: this.date,
+				amount: this.amount
+			}
+		}, callback);
 	}
 
-	static getAllTransactions() {
-		return transactions;
+	static getAllTransactions(callback) {
+		$.get('/transactions', callback);
 	}
 }
 
-let purchase = new Transaction("Shoes", "2018-06-15", 5);
-purchase.create();
+// let purchase = new Transaction("Shoes", "2018-06-15", 5);
+// purchase.create();
 
-purchase = new Transaction("Shirt", "2018-06-14", 15);
-purchase.create();
+// purchase = new Transaction("Shirt", "2018-06-14", 15);
+// purchase.create();
 
-purchase = new Transaction("Pants", "2018-06-13", 25);
-purchase.create();
+// purchase = new Transaction("Pants", "2018-06-13", 25);
+// purchase.create();
