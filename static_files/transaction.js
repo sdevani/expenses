@@ -19,7 +19,16 @@ class Transaction {
 	}
 
 	static getAllTransactions(callback) {
-		$.get('/transactions', callback);
+		$.get('/transactions', function(transactions) {
+			let transactionObjects = transactions.map(function(transaction) {
+				return new Transaction(
+					transaction.title,
+					transaction.date,
+					transaction.amount);
+			});
+
+			callback(transactionObjects);
+		});
 	}
 }
 

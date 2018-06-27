@@ -14,6 +14,7 @@ class ViewTransactions extends React.Component {
 		});
 
 		this.updateTitleFilter = this.updateTitleFilter.bind(this);
+		this.navigateToEditTransactions = this.navigateToEditTransactions.bind(this);
 	}
 
 	updateTitleFilter(event) {
@@ -22,10 +23,18 @@ class ViewTransactions extends React.Component {
 		});
 	}
 
+
+	navigateToEditTransactions(event) {
+		let id = event.target.dataset.index;
+		let transaction = this.state.transactions[id];
+		ReactDOM.render(<EditTransactions transaction={transaction}/>, document.getElementById('app'));
+	}
+
 	render() {
 		let updateTitleFilter = this.updateTitleFilter;
 		let state = this.state;
 
+		let view = this;
 		let listOfTransactions = this.state.transactions.map(function(purchase, index) {
 			if (purchase.title.includes(state.titleFilter)) {
 				return (
@@ -34,6 +43,7 @@ class ViewTransactions extends React.Component {
 							<h3>{purchase.title}</h3>
 							<p>Cost: {purchase.amount} </p>
 						</div>
+						<button onClick={view.navigateToEditTransactions} data-index={index}>Edit transaction</button><br/><br/>
 					</div>
 				);
 			} else {
