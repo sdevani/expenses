@@ -1,11 +1,11 @@
 let transactions = [];
 
 class Transaction {
-	constructor(title, date, amount, tags) {
+	constructor(title, date, amount, id) {
 		this.title = title;
 		this.date = date;
 		this.amount = amount;
-		this.tags = tags || [];
+		this.id = id;
 	}
 
 	create(callback) {
@@ -18,13 +18,38 @@ class Transaction {
 		}, callback);
 	}
 
+	update(callback) {
+		$.ajax({
+			url: 'transaction/' + this.id,
+			type: 'PUT',
+			success: callback,
+			data: {
+				editedTransactionData: {
+					title: this.title,
+					date: this.date,
+					amount: this.amount
+				}
+			}
+		});
+
+		// In jQuery $.puts does not exist :(
+		// $.puts('/transaction/' + this.id, {
+		// 	editedTransactionData: {
+		// 		title: this.title,
+		// 		date: this.date,
+		// 		amount: this.amount
+		// 	}
+		// }, callback)
+	}
+
 	static getAllTransactions(callback) {
 		$.get('/transactions', function(transactions) {
 			let transactionObjects = transactions.map(function(transaction) {
 				return new Transaction(
 					transaction.title,
 					transaction.date,
-					transaction.amount);
+					transaction.amount,
+					transaction.id);
 			});
 
 			callback(transactionObjects);
