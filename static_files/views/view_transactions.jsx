@@ -8,7 +8,7 @@ class ViewTransactions extends React.Component {
 		};
 
 		let view = this;
-		Transaction.getAllTransactions(function(transactions) {
+		Transaction.getAllTransactions().then(function(transactions) {
 			view.state.transactions = transactions;
 			view.setState(view.state);
 		});

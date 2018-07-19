@@ -9,20 +9,19 @@ class Transaction {
 	}
 
 	create(callback) {
-		$.post('/transaction', {
+		return $.post('/transaction', {
 			newPostData: {
 				title: this.title,
 				date: this.date,
 				amount: this.amount
 			}
-		}, callback);
+		});
 	}
 
-	update(callback) {
-		$.ajax({
+	update() {
+		return $.ajax({
 			url: 'transaction/' + this.id,
 			type: 'PUT',
-			success: callback,
 			data: {
 				editedTransactionData: {
 					title: this.title,
@@ -31,28 +30,21 @@ class Transaction {
 				}
 			}
 		});
-
-		// In jQuery $.puts does not exist :(
-		// $.puts('/transaction/' + this.id, {
-		// 	editedTransactionData: {
-		// 		title: this.title,
-		// 		date: this.date,
-		// 		amount: this.amount
-		// 	}
-		// }, callback)
 	}
 
-	static getAllTransactions(callback) {
-		$.get('/transactions', function(transactions) {
-			let transactionObjects = transactions.map(function(transaction) {
-				return new Transaction(
-					transaction.title,
-					transaction.date,
-					transaction.amount,
-					transaction.id);
-			});
+	static getAllTransactions() {
+		return $.get('/transactions').then(function(transactions) {
+			return new Promise(function(resolve) {
+				let transactionObjects = transactions.map(function(transaction) {
+					return new Transaction(
+						transaction.title,
+						transaction.date,
+						transaction.amount,
+						transaction.id);
+				});
 
-			callback(transactionObjects);
+				resolve(transactionObjects);
+			})
 		});
 	}
 }

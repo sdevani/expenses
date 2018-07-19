@@ -12,7 +12,7 @@ class NewTransaction extends React.Component {
 		let amount = domElement.getElementsByClassName("cost")[0].value;
 
 		let transaction = new Transaction(title, date, amount, []);
-		transaction.create(function() {
+		transaction.create().then(function() {
 			ReactDOM.render(<Expenses />, document.getElementById('app'));
 		});
 	}

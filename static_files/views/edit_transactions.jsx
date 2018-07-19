@@ -38,7 +38,7 @@ class EditTransactions extends React.Component {
 		this.state.transaction.title = this.state.transactionEdits.title;
 		this.state.transaction.date = this.state.transactionEdits.date;
 		this.state.transaction.amount = this.state.transactionEdits.amount;
-		this.state.transaction.update(function() {
+		this.state.transaction.update().then(function() {
 			ReactDOM.render(<Expenses />, document.getElementById('app'));
 		});
 	}
