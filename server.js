@@ -13,9 +13,35 @@ let transactions = [
 	{title: "Pants", date: "2018-06-13", amount: 35, id: 3}
 ]
 
+let tags = [
+	{id: 1, label: "clothes"},
+	{id: 2, label: "accessories"},
+	{id: 3, label: "red"}
+]
+
+let transactionTags = [
+	{id: 1, tag_id: 1, transaction_id: 2},
+	{id: 2, tag_id: 1, transaction_id: 3},
+	{id: 3, tag_id: 3, transaction_id: 2}
+]
+
 let nextTransactionId = 4;
+let nextTagId = 4;
+let nextTransactionTagId = 4;
 
 app.get('/transactions', function(req, res) {
+	transactions.forEach(function(transaction) {
+		transaction.tags = [];
+		transactionTags.forEach(function(transactionTag) {
+			if (transactionTag.transaction_id === transaction.id) {
+				tags.forEach(function(tag) {
+					if (tag.id === transactionTag.tag_id) {
+						transaction.tags.push(tag);
+					}
+				})
+			}			
+		});
+	})
 	res.json(transactions);
 });
 

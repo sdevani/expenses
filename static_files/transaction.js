@@ -1,11 +1,12 @@
 let transactions = [];
 
 class Transaction {
-	constructor(title, date, amount, id) {
+	constructor(title, date, amount, id, tags = []) {
 		this.title = title;
 		this.date = date;
 		this.amount = amount;
 		this.id = id;
+		this.tags = tags;
 	}
 
 	create(callback) {
@@ -40,7 +41,8 @@ class Transaction {
 						transaction.title,
 						transaction.date,
 						transaction.amount,
-						transaction.id);
+						transaction.id,
+						transaction.tags);
 				});
 
 				resolve(transactionObjects);

@@ -36,12 +36,16 @@ class ViewTransactions extends React.Component {
 
 		let view = this;
 		let listOfTransactions = this.state.transactions.map(function(purchase, index) {
+			let listOfTags = purchase.tags.map(function(tag) {
+				return tag.label;
+			}).join(", ");
 			if (purchase.title.includes(state.titleFilter)) {
 				return (
 					<div key={"purchase_" + index}>
 						<div>
 							<h3>{purchase.title}</h3>
 							<p>Cost: {purchase.amount} </p>
+							<p>Tags: {listOfTags} </p>
 						</div>
 						<button onClick={view.navigateToEditTransactions} data-index={index}>Edit transaction</button><br/><br/>
 					</div>
